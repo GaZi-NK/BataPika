@@ -1,6 +1,7 @@
 package com.example.redma.batapika
 
 import android.content.Context
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.getSystemService
+import kotlinx.android.synthetic.main.activity_main.*
 
 //センサーを使用するためセンサーインターフェースを実装
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 
+    //センサーの値が変化するたびに呼び出される
     override fun onSensorChanged(event: SensorEvent?) {
         //センサーに何らかの値が入っていること確認⇒入っていなかったら返す
         if (event == null) return
@@ -33,8 +36,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             //zDiffが閾値より高ければLEDライトON
             if (zDiff > threshold) {
                 torchOn()
+                txt01.text = "Zが10度以上傾きました！"
+                txt01.setTextColor(Color.YELLOW)
             }
-            oldValue = event.values[2] //TODO⇒意味が分かったらコメント追記
+            oldValue = event.values[2]
         }
     }
 
